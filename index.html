@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Campus Map</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="map-container">
+        <img src="campus-map.jpg" id="campus-map" alt="Campus Map">
+        <div id="events"></div>
+    </div>
+
+    <div id="add-event-form">
+        <h2>Add Event</h2>
+        <label for="event-location">Location:</label>
+        <select id="event-location"></select>
+
+        <label for="event-type">Event Type:</label>
+        <select id="event-type">
+            <option value="lecture">Lecture</option>
+            <option value="game">Game</option>
+            <option value="meeting">Meeting</option>
+        </select>
+
+        <label for="event-time">Time:</label>
+        <input type="time" id="event-time">
+
+        <button id="add-event-button">Add Event</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
