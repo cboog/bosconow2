@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Predefined locations
     const locations = {
         "Library": { x: 50, y: 20 },
-        "Gym": { x: 70, y: 40 },
+        "Gym": { x: 10, y: 10 },
         "Auditorium": { x: 30, y: 60 }
     };
 
