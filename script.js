@@ -3,14 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const eventLocationSelect = document.getElementById("event-location");
     const addEventButton = document.getElementById("add-event-button");
 
-    // Predefined campus locations
+    // Predefined locations
     const locations = {
         "Library": { x: 50, y: 20 },
-        "Gym": { x: 40, y: 20 },
+        "Gym": { x: 70, y: 40 },
         "Auditorium": { x: 30, y: 60 }
     };
 
-    // Populate dropdown with locations
+    // Add locations to dropdown
     Object.keys(locations).forEach(location => {
         const option = document.createElement("option");
         option.value = location;
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render events on the map
     function renderEvents() {
-        eventsContainer.innerHTML = ""; // Clear old markers
+        eventsContainer.innerHTML = ""; // Clear existing markers
         events.forEach(event => {
             const marker = document.createElement("div");
             marker.className = "event-marker";
@@ -37,12 +37,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add new event
     addEventButton.addEventListener("click", () => {
         const location = eventLocationSelect.value;
-        const type = document.getElementById("event-type").value;
+        const type = document.getElementById("event-type").value; // Get event type from text input
         const time = document.getElementById("event-time").value;
 
         if (location && type && time) {
-            events.push({ location, type, time }); // Save the event
-            renderEvents(); // Show the new event
+            events.push({ location, type, time }); // Save event
+            renderEvents(); // Update map
         } else {
             alert("Please fill out all fields!");
         }
