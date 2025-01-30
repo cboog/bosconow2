@@ -3,24 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>St.John Bosco Campus Events</title>
+  <title>St. John Bosco Campus Events</title>
   <style>
     body {
       font-family: Squad, SemiBold;
       font-weight: bold;
+      margin: 0;
+      padding: 0;
     }
     h1 {
-      color: navy; /* Set the text color to navy */
-      text-align: center; /* Optional: Center-align the text */
+      color: navy;
+      text-align: left;
+      padding: 20px;
+      margin-left: 5%;
     }
     .map-container {
       position: relative;
-      width: 100%;
-      max-width: 800px; /* Adjust to fit the map image size */
+      width: 90%;
+      max-width: 1200px;
       margin: 0 auto;
     }
     .map-container img {
       width: 100%;
+      height: auto;
       display: block;
     }
     .marker {
@@ -32,10 +37,10 @@
       border-radius: 50%;
       cursor: pointer;
       transform: translate(-50%, -50%);
-      visibility: hidden; /* Initially hidden */
+      visibility: hidden;
     }
     .marker[data-visible="true"] {
-      visibility: visible; /* Show when set to visible */
+      visibility: visible;
     }
     .marker:hover::after {
       content: attr(data-label);
@@ -50,38 +55,41 @@
       white-space: nowrap;
       font-size: 12px;
     }
+    .marker:hover .hover-image {
+      display: block;
+    }
+    .hover-image {
+      display: none;
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: auto;
+      border: 2px solid white;
+      border-radius: 5px;
+      background-color: white;
+    }
   </style>
 </head>
 <body>
   <h1>St. John Bosco Campus Events</h1>
   <div class="map-container">
-    <!-- Replace with your map image -->
-    <img src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1661938386/bosco/gj9ncox3wdkzh3cbmn6m/Campus-MAP.jpg" alt="Campus Map">
-    <!-- 20 Empty Markers -->
-    <div class="marker" id="marker-1"></div>
-    <div class="marker" id="marker-2"></div>
-    <div class="marker" id="marker-3"></div>
-    <div class="marker" id="marker-4"></div>
-    <div class="marker" id="marker-5"></div>
-    <div class="marker" id="marker-6"></div>
-    <div class="marker" id="marker-7"></div>
-    <div class="marker" id="marker-8"></div>
-    <div class="marker" id="marker-9"></div>
-    <div class="marker" id="marker-10"></div>
-    <div class="marker" id="marker-11"></div>
-    <div class="marker" id="marker-12"></div>
-    <div class="marker" id="marker-13"></div>
-    <div class="marker" id="marker-14"></div>
-    <div class="marker" id="marker-15"></div>
-    <div class="marker" id="marker-16"></div>
-    <div class="marker" id="marker-17"></div>
-    <div class="marker" id="marker-18"></div>
-    <div class="marker" id="marker-19"></div>
-    <div class="marker" id="marker-20"></div>
+    <img src="https://i.postimg.cc/GtFKYhcT/temp-Imagek9-STx-Y.avif" alt="Campus Map">
+    <div class="marker" id="marker-1">
+      <img class="hover-image" src="https://www.howardcdm.com/wp-content/uploads/2020/09/IMG_5458-scaled.jpg" alt="Track & Field">
+    </div>
+    <div class="marker" id="marker-2">
+      <img class="hover-image" src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1656441051/bosco/crparcmj0qrxs8sbr0vb/DSC09162-Edit.jpg" alt="Thunderdome/SJB Gym">
+    </div>
+    <div class="marker" id="marker-3">
+      <img class="hover-image" src="https://pbs.twimg.com/media/GO29Eyba4AEnP-B.jpg:large" alt="Baseball Field">
+    </div>
+    <div class="marker" id="marker-4">
+      <img class="hover-image" src="https://plae.us/wp-content/uploads/casestudies/domestic/st-johns-bosco/hero-scaled.jpg" alt="Weight Room">
+    </div>
   </div>
-
   <script>
-    // Function to update marker position and visibility
     function updateMarker(markerId, xPercent, yPercent, label = "") {
       const marker = document.getElementById(markerId);
       if (marker) {
@@ -93,13 +101,10 @@
         console.error(`Marker with ID "${markerId}" not found.`);
       }
     }
-
-    // Example: Updating markers dynamically
-    updateMarker("marker-1", 34, 26, "Track & Field,Lacrosse,Soccer");
+    updateMarker("marker-1", 34, 26, "Track & Field, Lacrosse, Soccer");
     updateMarker("marker-2", 57, 51, "Thunderdome/SJB Gym");
     updateMarker("marker-3", 80, 23, "Baseball Field");
     updateMarker("marker-4", 57, 45, "Weight Room");
-
   </script>
 </body>
 </html>
