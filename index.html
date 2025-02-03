@@ -38,11 +38,11 @@
       cursor: pointer;
       transform: translate(-50%, -50%);
       visibility: hidden;
+      z-index: 1;
     }
     .marker[data-visible="true"] {
       visibility: visible;
     }
-    /* Pop-up image styles */
     .hover-image {
       position: absolute;
       width: 0;
@@ -53,16 +53,46 @@
       transition: all 0.3s ease-in-out;
       opacity: 0;
       pointer-events: none;
+      z-index: 10;
+    }
+    .marker:hover {
+      z-index: 5;
     }
     .marker:hover .hover-image {
       width: 200px;
       opacity: 1;
       transform: scale(1.2);
     }
+    .event-form {
+      margin: 20px;
+    }
+    button {
+      background-color: navy;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
   <h1>St. John Bosco Campus Events</h1>
+  
+  <div class="event-form">
+    <label for="event-location">Select Location:</label>
+    <select id="event-location">
+      <option value="marker-1">Track & Field</option>
+      <option value="marker-2">Thunderdome/SJB Gym</option>
+      <option value="marker-3">Baseball Field</option>
+      <option value="marker-4">Weight Room</option>
+      <option value="marker-5">Panish Family Stadium</option>
+      <option value="marker-6">Bosco Quad</option>
+    </select>
+    <input type="text" id="event-name" placeholder="Enter event name">
+    <button onclick="addEvent()">Add Event</button>
+  </div>
+  
   <div class="map-container">
     <img src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1661938386/bosco/gj9ncox3wdkzh3cbmn6m/Campus-MAP.jpg" alt="Campus Map">
     
@@ -81,39 +111,37 @@
     <div class="marker" id="marker-5">
       <img class="hover-image" src="https://www.aceelectricinc.com/wp-content/uploads/2021/08/Capture-3.jpg" alt="Panish Family Stadium">
     </div>
-     <div class="marker" id="marker-6">
+    <div class="marker" id="marker-6">
       <img class="hover-image" src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1728059939/bosco/vb9uty8oyno2oeqq0n4f/DSC016111.jpg" alt="Bosco Quad">
     </div>
   </div>
 
   <script>
-    function updateMarker(markerId, xPercent, yPercent, label = "") {
+    function updateMarker(markerId, xPercent, yPercent) {
       const marker = document.getElementById(markerId);
       if (marker) {
         marker.style.left = `${xPercent}%`;
         marker.style.top = `${yPercent}%`;
-        marker.setAttribute("data-label", label);
         marker.setAttribute("data-visible", "true");
-
-        // Position the image above the marker
-        const img = marker.querySelector(".hover-image");
-        if (img) {
-          img.style.left = "50%";
-          img.style.top = "-150px"; // Moves image above the marker
-          img.style.transform = "translateX(-50%)";
-        }
-      } else {
-        console.error(`Marker with ID "${markerId}" not found.`);
       }
     }
 
-    // Update marker positions
-    updateMarker("marker-1", 34, 26, "Track & Field, Lacrosse, Soccer");
-    updateMarker("marker-2", 57, 51, "Thunderdome/SJB Gym");
-    updateMarker("marker-3", 80, 23, "Baseball Field");
-    updateMarker("marker-4", 57, 45, "Weight Room");
-    updateMarker("marker-5", 80, 80, "Panish Family Stadium");
-    updateMarker("marker-6", 34, 67, "Bosco Quad");
+    function addEvent() {
+      const location = document.getElementById("event-location").value;
+      const eventName = document.getElementById("event-name").value;
+      if (eventName.trim() === "") {
+        alert("Please enter an event name.");
+        return;
+      }
+      alert(`Event '${eventName}' added to ${location.replace("marker-", "Location ")}`);
+    }
+
+    updateMarker("marker-1", 34, 26);
+    updateMarker("marker-2", 57, 51);
+    updateMarker("marker-3", 80, 23);
+    updateMarker("marker-4", 57, 45);
+    updateMarker("marker-5", 80, 80);
+    updateMarker("marker-6", 34, 67);
   </script>
 </body>
 </html>
