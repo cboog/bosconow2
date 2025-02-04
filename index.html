@@ -17,18 +17,115 @@
       padding: 20px;
       margin-left: 5%;
     }
-    .event-list {
+    .event-form {
+      background-color: #f0f0f0;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    .event-form label {
+      font-size: 18px;
       color: navy;
-      text-decoration: underline;
-      font-size: 14px;
-      margin-top: 5px;
+    }
+    .event-form select,
+    .event-form input {
+      width: 90%;
+      padding: 10px;
+      font-size: 18px;
+      margin: 10px 0;
+      border: 2px solid navy;
+      border-radius: 5px;
+    }
+    .event-form button {
+      width: 90%;
+      padding: 12px;
+      font-size: 20px;
+      background-color: navy;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    .event-form button:hover {
+      background-color: darkblue;
+    }
+    .map-container {
+      position: relative;
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .map-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .marker {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: navy;
+      border: 2px solid white;
+      border-radius: 50%;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      visibility: hidden;
+      z-index: 1;
+    }
+    .marker[data-visible="true"] {
+      visibility: visible;
+    }
+    .hover-image {
+      position: absolute;
+      width: 0;
+      height: auto;
+      border: 3px solid navy;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease-in-out;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .marker:hover .hover-image {
+      width: 200px;
+      opacity: 1;
+      transform: scale(1.2);
     }
   </style>
 </head>
 <body>
   <h1>St. John Bosco Campus Events</h1>
+
+  <div class="event-form">
+    <label for="event-location">Select Location:</label>
+    <select id="event-location">
+      <option value="marker-1">Track & Field</option>
+      <option value="marker-2">Thunderdome/SJB Gym</option>
+      <option value="marker-3">Baseball Field</option>
+      <option value="marker-4">Weight Room</option>
+      <option value="marker-5">Panish Family Stadium</option>
+      <option value="marker-6">Bosco Quad</option>
+      <option value="marker-7">SJB Aquatics Pool</option>
+    </select>
+    <input type="text" id="event-name" placeholder="Enter event name">
+    <input type="number" id="event-hour" placeholder="HH" min="1" max="12">
+    <input type="number" id="event-minute" placeholder="MM" min="0" max="59">
+    <select id="event-period">
+      <option value="AM">AM</option>
+      <option value="PM">PM</option>
+    </select>
+    <button onclick="addEvent()">Add Event</button>
+  </div>
+
   <div class="map-container">
     <img src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1661938386/bosco/gj9ncox3wdkzh3cbmn6m/Campus-MAP.jpg" alt="Campus Map">
+
     <div class="marker" id="marker-1">
       <img class="hover-image" src="https://www.howardcdm.com/wp-content/uploads/2020/09/IMG_5458-scaled.jpg" alt="Track & Field">
     </div>
@@ -50,26 +147,19 @@
     <div class="marker" id="marker-7">
       <img class="hover-image" src="https://asset.findingschool.com/attachments/SCH004176/300x300_5ad404baaba3c554998bed5a132333de.webp" alt="SJB Aquatics Pool">
     </div>
-
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  <script>
+    function updateMarker(markerId, xPercent, yPercent) {
+      const marker = document.getElementById(markerId);
+      if (marker) {
+        marker.style.left = `${xPercent}%`;
+        marker.style.top = `${yPercent}%`;
+        marker.setAttribute("data-visible", "true");
+      }
+    }
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyC9mqnZhBnaq9WUgGyXXU2qDpsZ3ApagXs",
-      authDomain: "bosconow2.firebaseapp.com",
-      projectId: "bosconow2",
-      storageBucket: "bosconow2.firebasestorage.app",
-      messagingSenderId: "1057613433966",
-      appId: "1:1057613433966:web:8522231b75aa6588b32a7f",
-      measurementId: "G-D6Y7HYH8BT"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    async function addEvent() {
+    function addEvent() {
       const location = document.getElementById("event-location").value;
       const eventName = document.getElementById("event-name").value;
       const eventHour = document.getElementById("event-hour").value;
@@ -81,34 +171,37 @@
         return;
       }
 
-      await addDoc(collection(db, "events"), {
-        location: location,
-        name: eventName,
-        time: `${eventHour}:${eventMinute} ${eventPeriod}`
-      });
+      const marker = document.getElementById(location);
+      if (marker) {
+        alert(`Event Added: ${eventName} at ${eventHour}:${eventMinute} ${eventPeriod} at ${location}`);
+      }
     }
 
-    function listenForEvents() {
-      onSnapshot(collection(db, "events"), (snapshot) => {
-        const events = {};
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          if (!events[data.location]) {
-            events[data.location] = [];
-          }
-          events[data.location].push(`${data.name} at ${data.time}`);
-        });
-
-        Object.keys(events).forEach((markerId) => {
-          const eventListDiv = document.getElementById(`events-${markerId}`);
-          if (eventListDiv) {
-            eventListDiv.innerHTML = events[markerId].map(event => `<div>${event}</div>`).join('');
-          }
-        });
-      });
-    }
-
-    listenForEvents();
+    updateMarker("marker-1", 34, 26);
+    updateMarker("marker-2", 57, 51);
+    updateMarker("marker-3", 80, 23);
+    updateMarker("marker-4", 57, 45);
+    updateMarker("marker-5", 80, 80);
+    updateMarker("marker-6", 34, 67);
+    updateMarker("marker-7", 54, 67);
   </script>
 </body>
 </html>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // Your Firebase configuration (replace with your actual config)
+  const firebaseConfig = {
+  apiKey: "AIzaSyC9mqnZhBnaq9WUgGyXXU2qDpsZ3ApagXs",
+  authDomain: "bosconow2.firebaseapp.com",
+  projectId: "bosconow2",
+  storageBucket: "bosconow2.firebasestorage.app",
+  messagingSenderId: "1057613433966",
+  appId: "1:1057613433966:web:8522231b75aa6588b32a7f",
+  measurementId: "G-D6Y7HYH8BT"
+};
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+</script>
