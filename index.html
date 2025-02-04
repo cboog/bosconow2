@@ -53,7 +53,7 @@
       background-color: rgba(255, 255, 255, 0.8);
       padding: 5px;
       border-radius: 5px;
-      transform: translate(-50%, -150%);
+      transform: translate(-50%, -100%);
     }
     .event-form {
       margin: 20px;
@@ -83,7 +83,12 @@
       <option value="marker-7">SJB Aquatics Pool</option>
     </select>
     <input type="text" id="event-name" placeholder="Enter event name">
-    <input type="time" id="event-time">
+    <input type="number" id="event-hour" placeholder="HH" min="1" max="12">
+    <input type="number" id="event-minute" placeholder="MM" min="0" max="59">
+    <select id="event-period">
+      <option value="AM">AM</option>
+      <option value="PM">PM</option>
+    </select>
     <button onclick="addEvent()">Add Event</button>
   </div>
   
@@ -112,12 +117,16 @@
     function addEvent() {
       const location = document.getElementById("event-location").value;
       const eventName = document.getElementById("event-name").value;
-      const eventTime = document.getElementById("event-time").value;
+      const eventHour = document.getElementById("event-hour").value;
+      const eventMinute = document.getElementById("event-minute").value;
+      const eventPeriod = document.getElementById("event-period").value;
 
-      if (eventName.trim() === "" || eventTime.trim() === "") {
-        alert("Please enter both an event name and time.");
+      if (!eventName.trim() || !eventHour.trim() || !eventMinute.trim()) {
+        alert("Please enter event name and time.");
         return;
       }
+
+      const formattedTime = `${eventHour.padStart(2, '0')}:${eventMinute.padStart(2, '0')} ${eventPeriod}`;
 
       const marker = document.getElementById(location);
       if (marker) {
@@ -130,7 +139,7 @@
           marker.parentElement.appendChild(eventText);
         }
 
-        eventText.innerHTML = `${eventName} - ${eventTime}`;
+        eventText.innerHTML = `${eventName} - ${formattedTime}`;
         eventText.style.left = marker.style.left;
         eventText.style.top = `calc(${marker.style.top} - 25px)`;
       }
@@ -144,5 +153,6 @@
     updateMarker("marker-6", 34, 67);
     updateMarker("marker-7", 54, 67);
   </script>
+
 </body>
 </html>
