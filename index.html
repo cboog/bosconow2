@@ -17,6 +17,43 @@
       padding: 20px;
       margin-left: 5%;
     }
+    .event-form {
+      background-color: #f0f0f0;
+      padding: 20px;
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    .event-form label {
+      font-size: 18px;
+      color: navy;
+    }
+    .event-form select,
+    .event-form input {
+      width: 90%;
+      padding: 10px;
+      font-size: 18px;
+      margin: 10px 0;
+      border: 2px solid navy;
+      border-radius: 5px;
+    }
+    .event-form button {
+      width: 90%;
+      padding: 12px;
+      font-size: 20px;
+      background-color: navy;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    .event-form button:hover {
+      background-color: darkblue;
+    }
     .map-container {
       position: relative;
       width: 90%;
@@ -60,34 +97,11 @@
       opacity: 1;
       transform: scale(1.2);
     }
-    .event-text {
-      position: absolute;
-      white-space: nowrap;
-      font-size: 14px;
-      font-weight: bold;
-      color: navy;
-      text-decoration: underline;
-      background-color: rgba(255, 255, 255, 0.8);
-      padding: 5px;
-      border-radius: 5px;
-      transform: translate(-50%, -120%);
-    }
-    .event-form {
-      margin: 20px;
-    }
-    button {
-      background-color: navy;
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
   </style>
 </head>
 <body>
   <h1>St. John Bosco Campus Events</h1>
-  
+
   <div class="event-form">
     <label for="event-location">Select Location:</label>
     <select id="event-location">
@@ -108,10 +122,10 @@
     </select>
     <button onclick="addEvent()">Add Event</button>
   </div>
-  
+
   <div class="map-container">
     <img src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1661938386/bosco/gj9ncox3wdkzh3cbmn6m/Campus-MAP.jpg" alt="Campus Map">
-    
+
     <div class="marker" id="marker-1">
       <img class="hover-image" src="https://www.howardcdm.com/wp-content/uploads/2020/09/IMG_5458-scaled.jpg" alt="Track & Field">
     </div>
@@ -157,22 +171,9 @@
         return;
       }
 
-      const formattedTime = `${eventHour.padStart(2, '0')}:${eventMinute.padStart(2, '0')} ${eventPeriod}`;
-
       const marker = document.getElementById(location);
       if (marker) {
-        let eventText = document.getElementById(`event-text-${location}`);
-        
-        if (!eventText) {
-          eventText = document.createElement("div");
-          eventText.id = `event-text-${location}`;
-          eventText.classList.add("event-text");
-          marker.parentElement.appendChild(eventText);
-        }
-
-        eventText.innerHTML = `${eventName} - ${formattedTime}`;
-        eventText.style.left = marker.style.left;
-        eventText.style.top = `calc(${marker.style.top} - 25px)`;
+        alert(`Event Added: ${eventName} at ${eventHour}:${eventMinute} ${eventPeriod} at ${location}`);
       }
     }
 
@@ -184,6 +185,5 @@
     updateMarker("marker-6", 34, 67);
     updateMarker("marker-7", 54, 67);
   </script>
-
 </body>
 </html>
