@@ -133,10 +133,10 @@
   function addEvent() {
     const location = document.getElementById("event-location").value;
     const eventName = document.getElementById("event-name").value;
-    const eventTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const eventTime = document.getElementById("event-time").value;
 
-    if (eventName.trim() === "") {
-      alert("Please enter an event name.");
+    if (eventName.trim() === "" || eventTime.trim() === "") {
+      alert("Please enter both an event name and time.");
       return;
     }
 
@@ -157,10 +157,11 @@
         eventText.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
         eventText.style.padding = "5px";
         eventText.style.borderRadius = "5px";
-        eventText.style.transform = "translate(-50%, -100%)"; // Positions above marker
+        eventText.style.transform = "translate(-50%, -100%)"; // Position above marker
         marker.parentElement.appendChild(eventText);
       }
 
+      // Update event text with name and selected time
       eventText.innerHTML = `${eventName} - ${eventTime}`;
       eventText.style.left = marker.style.left;
       eventText.style.top = `calc(${marker.style.top} - 25px)`;
@@ -175,5 +176,6 @@
   updateMarker("marker-6", 34, 67);
   updateMarker("marker-7", 54, 67);
 </script>
+
 </body>
 </html>
