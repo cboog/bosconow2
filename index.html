@@ -43,25 +43,17 @@
     .marker[data-visible="true"] {
       visibility: visible;
     }
-    .hover-image {
+    .event-text {
       position: absolute;
-      width: 0;
-      height: auto;
-      border: 3px solid navy;
-      border-radius: 10px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease-in-out;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 10;
-    }
-    .marker:hover {
-      z-index: 5;
-    }
-    .marker:hover .hover-image {
-      width: 200px;
-      opacity: 1;
-      transform: scale(1.2);
+      white-space: nowrap;
+      font-size: 14px;
+      font-weight: bold;
+      color: navy;
+      text-decoration: underline;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 5px;
+      border-radius: 5px;
+      transform: translate(-50%, -150%);
     }
     .event-form {
       margin: 20px;
@@ -91,91 +83,66 @@
       <option value="marker-7">SJB Aquatics Pool</option>
     </select>
     <input type="text" id="event-name" placeholder="Enter event name">
+    <input type="time" id="event-time">
     <button onclick="addEvent()">Add Event</button>
   </div>
   
   <div class="map-container">
     <img src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1661938386/bosco/gj9ncox3wdkzh3cbmn6m/Campus-MAP.jpg" alt="Campus Map">
     
-    <div class="marker" id="marker-1">
-      <img class="hover-image" src="https://www.howardcdm.com/wp-content/uploads/2020/09/IMG_5458-scaled.jpg" alt="Track & Field">
-    </div>
-    <div class="marker" id="marker-2">
-      <img class="hover-image" src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1656441051/bosco/crparcmj0qrxs8sbr0vb/DSC09162-Edit.jpg" alt="Thunderdome/SJB Gym">
-    </div>
-    <div class="marker" id="marker-3">
-      <img class="hover-image" src="https://pbs.twimg.com/media/GO29Eyba4AEnP-B.jpg:large" alt="Baseball Field">
-    </div>
-    <div class="marker" id="marker-4">
-      <img class="hover-image" src="https://plae.us/wp-content/uploads/casestudies/domestic/st-johns-bosco/hero-scaled.jpg" alt="Weight Room">
-    </div>
-    <div class="marker" id="marker-5">
-      <img class="hover-image" src="https://www.aceelectricinc.com/wp-content/uploads/2021/08/Capture-3.jpg" alt="Panish Family Stadium">
-    </div>
-    <div class="marker" id="marker-6">
-      <img class="hover-image" src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1728059939/bosco/vb9uty8oyno2oeqq0n4f/DSC016111.jpg" alt="Bosco Quad">
-    </div>
-    <div class="marker" id="marker-7">
-      <img class="hover-image" src="https://asset.findingschool.com/attachments/SCH004176/300x300_5ad404baaba3c554998bed5a132333de.webp" alt="SJB Aquatics Pool">
-    </div>
+    <div class="marker" id="marker-1"></div>
+    <div class="marker" id="marker-2"></div>
+    <div class="marker" id="marker-3"></div>
+    <div class="marker" id="marker-4"></div>
+    <div class="marker" id="marker-5"></div>
+    <div class="marker" id="marker-6"></div>
+    <div class="marker" id="marker-7"></div>
   </div>
 
- <script>
-  function updateMarker(markerId, xPercent, yPercent) {
-    const marker = document.getElementById(markerId);
-    if (marker) {
-      marker.style.left = `${xPercent}%`;
-      marker.style.top = `${yPercent}%`;
-      marker.setAttribute("data-visible", "true");
-    }
-  }
-
-  function addEvent() {
-    const location = document.getElementById("event-location").value;
-    const eventName = document.getElementById("event-name").value;
-    const eventTime = document.getElementById("event-time").value;
-
-    if (eventName.trim() === "" || eventTime.trim() === "") {
-      alert("Please enter both an event name and time.");
-      return;
+  <script>
+    function updateMarker(markerId, xPercent, yPercent) {
+      const marker = document.getElementById(markerId);
+      if (marker) {
+        marker.style.left = `${xPercent}%`;
+        marker.style.top = `${yPercent}%`;
+        marker.setAttribute("data-visible", "true");
+      }
     }
 
-    const marker = document.getElementById(location);
-    if (marker) {
-      let eventText = document.getElementById(`event-text-${location}`);
-      
-      if (!eventText) {
-        eventText = document.createElement("div");
-        eventText.id = `event-text-${location}`;
-        eventText.classList.add("event-text");
-        eventText.style.position = "absolute";
-        eventText.style.whiteSpace = "nowrap";
-        eventText.style.fontSize = "14px";
-        eventText.style.fontWeight = "bold";
-        eventText.style.color = "navy";
-        eventText.style.textDecoration = "underline";
-        eventText.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
-        eventText.style.padding = "5px";
-        eventText.style.borderRadius = "5px";
-        eventText.style.transform = "translate(-50%, -100%)"; // Position above marker
-        marker.parentElement.appendChild(eventText);
+    function addEvent() {
+      const location = document.getElementById("event-location").value;
+      const eventName = document.getElementById("event-name").value;
+      const eventTime = document.getElementById("event-time").value;
+
+      if (eventName.trim() === "" || eventTime.trim() === "") {
+        alert("Please enter both an event name and time.");
+        return;
       }
 
-      // Update event text with name and selected time
-      eventText.innerHTML = `${eventName} - ${eventTime}`;
-      eventText.style.left = marker.style.left;
-      eventText.style.top = `calc(${marker.style.top} - 25px)`;
+      const marker = document.getElementById(location);
+      if (marker) {
+        let eventText = document.getElementById(`event-text-${location}`);
+        
+        if (!eventText) {
+          eventText = document.createElement("div");
+          eventText.id = `event-text-${location}`;
+          eventText.classList.add("event-text");
+          marker.parentElement.appendChild(eventText);
+        }
+
+        eventText.innerHTML = `${eventName} - ${eventTime}`;
+        eventText.style.left = marker.style.left;
+        eventText.style.top = `calc(${marker.style.top} - 25px)`;
+      }
     }
-  }
 
-  updateMarker("marker-1", 34, 26);
-  updateMarker("marker-2", 57, 51);
-  updateMarker("marker-3", 80, 23);
-  updateMarker("marker-4", 57, 45);
-  updateMarker("marker-5", 80, 80);
-  updateMarker("marker-6", 34, 67);
-  updateMarker("marker-7", 54, 67);
-</script>
-
+    updateMarker("marker-1", 34, 26);
+    updateMarker("marker-2", 57, 51);
+    updateMarker("marker-3", 80, 23);
+    updateMarker("marker-4", 57, 45);
+    updateMarker("marker-5", 80, 80);
+    updateMarker("marker-6", 34, 67);
+    updateMarker("marker-7", 54, 67);
+  </script>
 </body>
 </html>
