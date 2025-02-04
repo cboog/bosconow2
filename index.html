@@ -187,3 +187,22 @@
   </script>
 </body>
 </html>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // Your Firebase configuration (replace with your actual config)
+  const firebaseConfig = {
+  apiKey: "AIzaSyC9mqnZhBnaq9WUgGyXXU2qDpsZ3ApagXs",
+  authDomain: "bosconow2.firebaseapp.com",
+  projectId: "bosconow2",
+  storageBucket: "bosconow2.firebasestorage.app",
+  messagingSenderId: "1057613433966",
+  appId: "1:1057613433966:web:8522231b75aa6588b32a7f",
+  measurementId: "G-D6Y7HYH8BT"
+};
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+</script>
+
