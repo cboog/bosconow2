@@ -43,6 +43,23 @@
     .marker[data-visible="true"] {
       visibility: visible;
     }
+    .hover-image {
+      position: absolute;
+      width: 0;
+      height: auto;
+      border: 3px solid navy;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease-in-out;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .marker:hover .hover-image {
+      width: 200px;
+      opacity: 1;
+      transform: scale(1.2);
+    }
     .event-text {
       position: absolute;
       white-space: nowrap;
@@ -53,7 +70,7 @@
       background-color: rgba(255, 255, 255, 0.8);
       padding: 5px;
       border-radius: 5px;
-      transform: translate(-50%, -100%);
+      transform: translate(-50%, -120%);
     }
     .event-form {
       margin: 20px;
@@ -95,13 +112,27 @@
   <div class="map-container">
     <img src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1661938386/bosco/gj9ncox3wdkzh3cbmn6m/Campus-MAP.jpg" alt="Campus Map">
     
-    <div class="marker" id="marker-1"></div>
-    <div class="marker" id="marker-2"></div>
-    <div class="marker" id="marker-3"></div>
-    <div class="marker" id="marker-4"></div>
-    <div class="marker" id="marker-5"></div>
-    <div class="marker" id="marker-6"></div>
-    <div class="marker" id="marker-7"></div>
+    <div class="marker" id="marker-1">
+      <img class="hover-image" src="https://www.howardcdm.com/wp-content/uploads/2020/09/IMG_5458-scaled.jpg" alt="Track & Field">
+    </div>
+    <div class="marker" id="marker-2">
+      <img class="hover-image" src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1656441051/bosco/crparcmj0qrxs8sbr0vb/DSC09162-Edit.jpg" alt="Thunderdome/SJB Gym">
+    </div>
+    <div class="marker" id="marker-3">
+      <img class="hover-image" src="https://pbs.twimg.com/media/GO29Eyba4AEnP-B.jpg:large" alt="Baseball Field">
+    </div>
+    <div class="marker" id="marker-4">
+      <img class="hover-image" src="https://plae.us/wp-content/uploads/casestudies/domestic/st-johns-bosco/hero-scaled.jpg" alt="Weight Room">
+    </div>
+    <div class="marker" id="marker-5">
+      <img class="hover-image" src="https://www.aceelectricinc.com/wp-content/uploads/2021/08/Capture-3.jpg" alt="Panish Family Stadium">
+    </div>
+    <div class="marker" id="marker-6">
+      <img class="hover-image" src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1728059939/bosco/vb9uty8oyno2oeqq0n4f/DSC016111.jpg" alt="Bosco Quad">
+    </div>
+    <div class="marker" id="marker-7">
+      <img class="hover-image" src="https://asset.findingschool.com/attachments/SCH004176/300x300_5ad404baaba3c554998bed5a132333de.webp" alt="SJB Aquatics Pool">
+    </div>
   </div>
 
   <script>
