@@ -120,33 +120,60 @@
     </div>
   </div>
 
-  <script>
-    function updateMarker(markerId, xPercent, yPercent) {
-      const marker = document.getElementById(markerId);
-      if (marker) {
-        marker.style.left = `${xPercent}%`;
-        marker.style.top = `${yPercent}%`;
-        marker.setAttribute("data-visible", "true");
-      }
+ <script>
+  function updateMarker(markerId, xPercent, yPercent) {
+    const marker = document.getElementById(markerId);
+    if (marker) {
+      marker.style.left = `${xPercent}%`;
+      marker.style.top = `${yPercent}%`;
+      marker.setAttribute("data-visible", "true");
+    }
+  }
+
+  function addEvent() {
+    const location = document.getElementById("event-location").value;
+    const eventName = document.getElementById("event-name").value;
+    const eventTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    if (eventName.trim() === "") {
+      alert("Please enter an event name.");
+      return;
     }
 
-    function addEvent() {
-      const location = document.getElementById("event-location").value;
-      const eventName = document.getElementById("event-name").value;
-      if (eventName.trim() === "") {
-        alert("Please enter an event name.");
-        return;
+    const marker = document.getElementById(location);
+    if (marker) {
+      let eventText = document.getElementById(`event-text-${location}`);
+      
+      if (!eventText) {
+        eventText = document.createElement("div");
+        eventText.id = `event-text-${location}`;
+        eventText.classList.add("event-text");
+        eventText.style.position = "absolute";
+        eventText.style.whiteSpace = "nowrap";
+        eventText.style.fontSize = "14px";
+        eventText.style.fontWeight = "bold";
+        eventText.style.color = "navy";
+        eventText.style.textDecoration = "underline";
+        eventText.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
+        eventText.style.padding = "5px";
+        eventText.style.borderRadius = "5px";
+        eventText.style.transform = "translate(-50%, -100%)"; // Positions above marker
+        marker.parentElement.appendChild(eventText);
       }
-      alert(`Event '${eventName}' added to ${location.replace("marker-", "Location ")}`);
-    }
 
-    updateMarker("marker-1", 34, 26);
-    updateMarker("marker-2", 57, 51);
-    updateMarker("marker-3", 80, 23);
-    updateMarker("marker-4", 57, 45);
-    updateMarker("marker-5", 80, 80);
-    updateMarker("marker-6", 34, 67);
-    updateMarker("marker-7", 54, 67);
-  </script>
+      eventText.innerHTML = `${eventName} - ${eventTime}`;
+      eventText.style.left = marker.style.left;
+      eventText.style.top = `calc(${marker.style.top} - 25px)`;
+    }
+  }
+
+  updateMarker("marker-1", 34, 26);
+  updateMarker("marker-2", 57, 51);
+  updateMarker("marker-3", 80, 23);
+  updateMarker("marker-4", 57, 45);
+  updateMarker("marker-5", 80, 80);
+  updateMarker("marker-6", 34, 67);
+  updateMarker("marker-7", 54, 67);
+</script>
 </body>
 </html>
