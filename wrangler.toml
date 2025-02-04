@@ -1,0 +1,6 @@
+name = "my-event-worker"
+type = "javascript"
+
+[[kv_namespaces]]
+binding = "EVENTS_STORE"
+id = "1c64adaa80b849a39dc5a822ae000df3"
