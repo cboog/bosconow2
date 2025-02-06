@@ -16,35 +16,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Function to add event to Firestore
+// Add event
 document.getElementById("add-event-button").addEventListener("click", async () => {
     const location = document.getElementById("event-location").value;
     const eventName = document.getElementById("event-name").value;
-    const eventHour = document.getElementById("event-hour").value;
-    const eventMinute = document.getElementById("event-minute").value;
-    const eventPeriod = document.getElementById("event-period").value;
-
-    if (!eventName || !eventHour || !eventMinute) {
-        alert("Please fill out all event details!");
-        return;
-    }
-
-    const eventTime = `${eventHour}:${eventMinute} ${eventPeriod}`;
+    const eventTime = `${document.getElementById("event-hour").value}:${document.getElementById("event-minute").value} ${document.getElementById("event-period").value}`;
 
     await addDoc(collection(db, "events"), { location, name: eventName, time: eventTime });
 });
 
-// Real-time event listener
+// Display events
 onSnapshot(collection(db, "events"), (snapshot) => {
     snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
             const { location, name, time } = change.doc.data();
             const marker = document.getElementById(location);
             if (marker) {
-                const eventList = marker.querySelector(".event-list");
-                const eventItem = document.createElement("p");
-                eventItem.textContent = `${name} - ${time}`;
-                eventList.appendChild(eventItem);
+                marker.innerHTML += `<div class="event-list"><p>${name} - ${time}</p></div>`;
             }
         }
     });
