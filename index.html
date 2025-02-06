@@ -206,7 +206,7 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  async function addEvent() {
+  function addEvent() {
     const location = document.getElementById("event-location").value;
     const eventName = document.getElementById("event-name").value;
     const eventHour = document.getElementById("event-hour").value;
@@ -220,21 +220,19 @@
 
     const eventTime = `${eventHour}:${eventMinute} ${eventPeriod}`;
 
-    try {
-      await addDoc(collection(db, "events"), {
-        location,
-        eventName,
-        eventTime
-      });
-    } catch (error) {
-      console.error("Error adding event:", error);
-    }
+    addDoc(collection(db, "events"), {
+      location,
+      eventName,
+      eventTime
+    });
   }
 
   function displayEvent(markerId, eventName, eventTime) {
     const marker = document.getElementById(markerId);
     if (marker) {
       let eventList = marker.querySelector(".event-list");
+      
+      // If event list does not exist under marker, create it
       if (!eventList) {
         eventList = document.createElement("div");
         eventList.className = "event-list";
@@ -249,12 +247,19 @@
         eventList.style.fontSize = "14px";
         eventList.style.textAlign = "center";
         eventList.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.3)";
+        eventList.style.whiteSpace = "nowrap"; // Keeps text inline
         marker.appendChild(eventList);
       }
-      eventList.innerHTML += `<p>${eventName} - ${eventTime}</p>`;
+
+      // Add event to the list
+      const eventItem = document.createElement("p");
+      eventItem.style.margin = "5px 0";
+      eventItem.textContent = `${eventName} - ${eventTime}`;
+      eventList.appendChild(eventItem);
     }
   }
 
+  // Listen for real-time updates and display events
   onSnapshot(collection(db, "events"), (snapshot) => {
     snapshot.docChanges().forEach((change) => {
       if (change.type === "added") {
