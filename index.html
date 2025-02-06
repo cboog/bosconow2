@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>St. John Bosco Campus Events</title>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -78,7 +76,6 @@
       transform: translate(-50%, -50%);
       visibility: hidden;
       z-index: 1;
-      text-align: center;
     }
     .marker[data-visible="true"] {
       visibility: visible;
@@ -99,13 +96,6 @@
       width: 200px;
       opacity: 1;
       transform: scale(1.2);
-    }
-    .event-text {
-      color: navy;
-      text-decoration: underline;
-      font-size: 14px;
-      display: block;
-      margin-top: 5px;
     }
   </style>
 </head>
@@ -137,43 +127,29 @@
     <img src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1661938386/bosco/gj9ncox3wdkzh3cbmn6m/Campus-MAP.jpg" alt="Campus Map">
 
     <div class="marker" id="marker-1">
-      <img src="https://i.imgur.com/track.jpg" class="hover-image">
+      <img class="hover-image" src="https://www.howardcdm.com/wp-content/uploads/2020/09/IMG_5458-scaled.jpg" alt="Track & Field">
     </div>
     <div class="marker" id="marker-2">
-      <img src="https://i.imgur.com/gym.jpg" class="hover-image">
+      <img class="hover-image" src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1656441051/bosco/crparcmj0qrxs8sbr0vb/DSC09162-Edit.jpg" alt="Thunderdome/SJB Gym">
     </div>
     <div class="marker" id="marker-3">
-      <img src="https://i.imgur.com/baseball.jpg" class="hover-image">
+      <img class="hover-image" src="https://pbs.twimg.com/media/GO29Eyba4AEnP-B.jpg:large" alt="Baseball Field">
     </div>
     <div class="marker" id="marker-4">
-      <img src="https://i.imgur.com/weightroom.jpg" class="hover-image">
+      <img class="hover-image" src="https://plae.us/wp-content/uploads/casestudies/domestic/st-johns-bosco/hero-scaled.jpg" alt="Weight Room">
     </div>
     <div class="marker" id="marker-5">
-      <img src="https://i.imgur.com/stadium.jpg" class="hover-image">
+      <img class="hover-image" src="https://givebutter.com/cdn-cgi/image/width=1200/https://givebutter.s3.amazonaws.com/media/DEySm1VPVbYRhfNRN4SKHWRxmKSJ9JHt104Vqr10.jpeg" alt="Panish Family Stadium">
     </div>
     <div class="marker" id="marker-6">
-      <img src="https://i.imgur.com/quad.jpg" class="hover-image">
+      <img class="hover-image" src="https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_2/v1728059939/bosco/vb9uty8oyno2oeqq0n4f/DSC016111.jpg" alt="Bosco Quad">
     </div>
     <div class="marker" id="marker-7">
-      <img src="https://i.imgur.com/pool.jpg" class="hover-image">
+      <img class="hover-image" src="https://asset.findingschool.com/attachments/SCH004176/300x300_5ad404baaba3c554998bed5a132333de.webp" alt="SJB Aquatics Pool">
     </div>
   </div>
 
   <script>
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyC9mqnZhBnaq9WUgGyXXU2qDpsZ3ApagXs",
-      authDomain: "bosconow2.firebaseapp.com",
-      projectId: "bosconow2",
-      storageBucket: "bosconow2.firebasestorage.app",
-      messagingSenderId: "1057613433966",
-      appId: "1:1057613433966:web:8522231b75aa6588b32a7f",
-      measurementId: "G-D6Y7HYH8BT"
-    };
-
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
     function updateMarker(markerId, xPercent, yPercent) {
       const marker = document.getElementById(markerId);
       if (marker) {
@@ -195,16 +171,10 @@
         return;
       }
 
-      const eventTime = `${eventHour}:${eventMinute.padStart(2, '0')} ${eventPeriod}`;
-      
-      // Store in Firestore
-      db.collection("events").add({
-        location: location,
-        name: eventName,
-        time: eventTime
-      });
-
-      alert(`Event Added: ${eventName} at ${eventTime} at ${location}`);
+      const marker = document.getElementById(location);
+      if (marker) {
+        alert(`Event Added: ${eventName} at ${eventHour}:${eventMinute} ${eventPeriod} at ${location}`);
+      }
     }
 
     updateMarker("marker-1", 34, 26);
@@ -215,6 +185,23 @@
     updateMarker("marker-6", 34, 67);
     updateMarker("marker-7", 54, 67);
   </script>
-
 </body>
 </html>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // Your Firebase configuration (replace with your actual config)
+  const firebaseConfig = {
+  apiKey: "AIzaSyC9mqnZhBnaq9WUgGyXXU2qDpsZ3ApagXs",
+  authDomain: "bosconow2.firebaseapp.com",
+  projectId: "bosconow2",
+  storageBucket: "bosconow2.firebasestorage.app",
+  messagingSenderId: "1057613433966",
+  appId: "1:1057613433966:web:8522231b75aa6588b32a7f",
+  measurementId: "G-D6Y7HYH8BT"
+};
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+</script>
