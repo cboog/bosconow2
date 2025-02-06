@@ -63,4 +63,19 @@ body {
 #event-type {
     border: 1px solid #ccc;
     border-radius: 4px;
+    .event-list {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 5px;
+  border: 1px solid navy;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
 }
