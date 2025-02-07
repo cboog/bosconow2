@@ -1,72 +1,44 @@
-/* General Styles */
+/* styles.css */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  text-align: center;
 }
-
-h1 {
-    color: navy;
-    text-align: left;
-    padding: 20px;
-    margin-left: 5%;
-}
-
-/* Map & Marker Styles */
 .map-container {
-    position: relative;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
+  position: relative;
+  display: inline-block;
 }
-
-.map-container img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
 .marker {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: navy;
-    border: 2px solid white;
-    border-radius: 50%;
-    cursor: pointer;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: navy;
+  border-radius: 50%;
+  cursor: pointer;
 }
-
-/* Hover Image */
+.marker span {
+  display: none;
+  background-color: white;
+  padding: 5px;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.marker:hover span {
+  display: block;
+}
 .hover-image {
-    position: absolute;
-    width: 0;
-    opacity: 0;
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
+  display: none;
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  border: 2px solid navy;
+  border-radius: 5px;
 }
-
 .marker:hover .hover-image {
-    width: 200px;
-    opacity: 1;
-}
-
-/* Event List */
-.event-list {
-    position: absolute;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    padding: 5px;
-    border: 1px solid navy;
-    border-radius: 5px;
-    font-size: 14px;
-    text-align: center;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.event-list p {
-    margin: 5px 0;
-    text-decoration: underline;
+  display: block;
 }
