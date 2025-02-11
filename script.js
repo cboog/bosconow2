@@ -30,6 +30,9 @@ document.getElementById("add-event-button").addEventListener("click", function()
   eventText.style.border = "1px solid navy";
   eventText.style.borderRadius = "5px";
 
+  // Give the event text a high z-index to appear above the map
+  eventText.style.zIndex = "999"; // Higher than the map's z-index
+
   // Append the event text to the marker
   marker.appendChild(eventText);
 
