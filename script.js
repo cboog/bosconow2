@@ -17,21 +17,20 @@ document.getElementById("add-event-button").addEventListener("click", function()
     return;
   }
 
-  // Create event text and position it below the marker
+  // Create event text and position it to the left and under the marker
   const eventText = document.createElement("div");
   eventText.textContent = `${eventName} - ${eventTime}`;
   eventText.style.position = "absolute";
-  eventText.style.top = "25px"; // Adjust this to make it appear below the marker
-  eventText.style.left = "50%";
+  eventText.style.top = "30px"; // Position it below the marker
+  eventText.style.left = "-35px"; // Position it to the left of the marker
   eventText.style.transform = "translateX(-50%)";
   eventText.style.backgroundColor = "white";
   eventText.style.padding = "5px";
   eventText.style.fontSize = "12px";
   eventText.style.border = "1px solid navy";
   eventText.style.borderRadius = "5px";
-
-  // Give the event text a high z-index to appear above the map
-  eventText.style.zIndex = "999"; // Higher than the map's z-index
+  eventText.style.textDecoration = "underline"; // Add underline
+  eventText.style.zIndex = "999"; // Ensure the text is above the map but below the hover image
 
   // Append the event text to the marker
   marker.appendChild(eventText);
