@@ -17,11 +17,11 @@ document.getElementById("add-event-button").addEventListener("click", function()
     return;
   }
 
-  // Create event text and position it relative to the marker
+  // Create event text and position it below the marker
   const eventText = document.createElement("div");
   eventText.textContent = `${eventName} - ${eventTime}`;
   eventText.style.position = "absolute";
-  eventText.style.top = "-30px"; // Adjust this as needed
+  eventText.style.top = "25px"; // Adjust this to make it appear below the marker
   eventText.style.left = "50%";
   eventText.style.transform = "translateX(-50%)";
   eventText.style.backgroundColor = "white";
@@ -32,4 +32,7 @@ document.getElementById("add-event-button").addEventListener("click", function()
 
   // Append the event text to the marker
   marker.appendChild(eventText);
+
+  // Ensure marker is visible after the event is added
+  marker.style.visibility = "visible";  // Ensure the marker is visible
 });
