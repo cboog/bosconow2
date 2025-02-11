@@ -1,26 +1,61 @@
-/* script.js */
-document.getElementById("add-event-button").addEventListener("click", function() {
-  const location = document.getElementById("event-location").value;
-  const eventName = document.getElementById("event-name").value;
-  const eventHour = document.getElementById("event-hour").value.padStart(2, '0');
-  const eventMinute = document.getElementById("event-minute").value.padStart(2, '0');
-  const eventPeriod = document.getElementById("event-period").value;
-  if (eventName.trim() === "" || eventHour === "" || eventMinute === "") {
-    alert("Please enter all event details.");
-    return;
-  }
-  const eventTime = `${eventHour}:${eventMinute} ${eventPeriod}`;
-  const marker = document.getElementById(location);
-  const eventText = document.createElement("div");
-  eventText.textContent = `${eventName} - ${eventTime}`;
-  eventText.style.position = "absolute";
-  eventText.style.top = "-25px";
-  eventText.style.left = "50%";
-  eventText.style.transform = "translateX(-50%)";
-  eventText.style.backgroundColor = "white";
-  eventText.style.padding = "5px";
-  eventText.style.fontSize = "12px";
-  eventText.style.border = "1px solid navy";
-  eventText.style.borderRadius = "5px";
-  marker.appendChild(eventText);
+// Initialize the map with your school campus coordinates
+const map = L.map('map').setView([51.505, -0.09], 13); // Replace with your campus coordinates
+
+// Add tile layer (OpenStreetMap in this case)
+L.tileLayer('https://resources.finalsite.net/images/f_auto,q_auto,t_image_size_4/v1661938386/bosco/gj9ncox3wdkzh3cbmn6m/Campus-MAP.jpg').addTo(map);
+
+// Coordinates of markers (adjust later)
+const locations = [
+  { lat: 51.505, lng: -0.09, name: "Library", imageUrl: "https://example.com/library-image.jpg" },
+  { lat: 51.515, lng: -0.1, name: "Cafeteria", imageUrl: "https://example.com/cafeteria-image.jpg" },
+  { lat: 51.525, lng: -0.11, name: "Gym", imageUrl: "https://example.com/gym-image.jpg" }
+];
+
+// Create markers and add event handlers
+locations.forEach(location => {
+  const marker = L.marker([location.lat, location.lng]).addTo(map);
+  
+  // Show image when hovering over the marker
+  marker.on('mouseover', () => {
+    const popup = L.popup()
+      .setLatLng([location.lat, location.lng])
+      .setContent(`<img src="${location.imageUrl}" alt="${location.name}" width="300" />`)
+      .openOn(map);
+  });
+  
+  // Event click to show event form
+  marker.on('click', () => {
+    showEventForm(marker, location);
+  });
 });
+
+// Function to display the event form
+function showEventForm(marker, location) {
+  const eventInfoDiv = document.getElementById('eventInfo');
+  eventInfoDiv.style.display = 'block';
+
+  const eventList = document.getElementById('eventsList');
+  const newEventItem = document.createElement('li');
+  
+  newEventItem.innerHTML = `
+    <strong>${location.name}</strong><br>
+    <input type="text" id="eventName" placeholder="Event name" /><br>
+    <input type="text" id="eventDescription" placeholder="Event description" /><br>
+    <button onclick="addEvent(${marker.getLatLng().lat}, ${marker.getLatLng().lng})">Add Event</button>
+  `;
+  eventList.appendChild(newEventItem);
+}
+
+// Function to add event under the marker
+function addEvent(lat, lng) {
+  const eventName = document.getElementById('eventName').value;
+  const eventDescription = document.getElementById('eventDescription').value;
+
+  // You can enhance this to save events to a database or localStorage
+
+  const eventMarker = L.marker([lat, lng]).addTo(map);
+  eventMarker.bindPopup(`<strong>${eventName}</strong><br>${eventDescription}`).openPopup();
+
+  alert("Event added successfully!");
+}
+
