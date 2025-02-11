@@ -1,44 +1,35 @@
-/* styles.css */
+#map {
+  height: 500px;
+  width: 100%;
+}
+
 body {
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
   text-align: center;
+  margin-top: 20px;
 }
-.map-container {
-  position: relative;
-  display: inline-block;
-}
-.marker {
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  background-color: navy;
-  border-radius: 50%;
-  cursor: pointer;
-}
-.marker span {
-  display: none;
-  background-color: white;
-  padding: 5px;
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 14px;
-  white-space: nowrap;
-}
-.marker:hover span {
-  display: block;
-}
-.hover-image {
-  display: none;
-  position: absolute;
-  top: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  border: 2px solid navy;
+
+.event-info {
+  margin: 20px;
+  padding: 20px;
+  background-color: #f4f4f4;
   border-radius: 5px;
 }
-.marker:hover .hover-image {
-  display: block;
+
+input {
+  margin: 5px 0;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 8px 16px;
+  margin-top: 10px;
+  cursor: pointer;
 }
