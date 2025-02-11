@@ -1,44 +1,32 @@
-/* styles.css */
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
+/* Ensuring the map image doesn't overlay event text */
 .map-container {
   position: relative;
-  display: inline-block;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  z-index: 1; /* Map container has lower z-index */
 }
+
+.map-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 .marker {
   position: absolute;
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   background-color: navy;
+  border: 2px solid white;
   border-radius: 50%;
   cursor: pointer;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  z-index: 2; /* Markers are above the map but below the event text */
 }
-.marker span {
-  display: none;
-  background-color: white;
-  padding: 5px;
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 14px;
-  white-space: nowrap;
-}
-.marker:hover span {
-  display: block;
-}
-.hover-image {
-  display: none;
-  position: absolute;
-  top: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  border: 2px solid navy;
-  border-radius: 5px;
-}
-.marker:hover .hover-image {
-  display: block;
+
+/* Ensure event text appears above the map and markers */
+.marker div {
+  z-index: 999; /* Make sure the event text appears above map and marker */
 }
