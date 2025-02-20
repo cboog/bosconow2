@@ -1,50 +1,49 @@
-// Replace this with a function that processes the event data
+// Example markers structure to simulate data storage
+const markers = {
+  "marker-1": { events: [] },
+  "marker-2": { events: [] },
+  "marker-3": { events: [] },
+  "marker-4": { events: [] },
+  "marker-5": { events: [] },
+  "marker-6": { events: [] },
+  "marker-7": { events: [] },
+  "marker-8": { events: [] },
+  "marker-9": { events: [] },
+  "marker-10": { events: [] },
+  "marker-11": { events: [] },
+};
+
+// Function to add an event to a marker
 function addEventToMarker(location, eventName, eventHour, eventMinute, eventPeriod) {
-  // Validate input
   if (!eventName || eventHour === "" || eventMinute === "") {
-    throw new Error("Please enter all event details.");
+    console.error("Please enter all event details.");
+    return;
   }
 
-  // Format time correctly
   eventHour = String(eventHour).padStart(2, '0');
   eventMinute = String(eventMinute).padStart(2, '0');
   const eventTime = `${eventHour}:${eventMinute} ${eventPeriod}`;
 
-  // Simulate the marker (this would be a data structure representing the marker)
-  const marker = getMarkerByLocation(location);
+  const marker = markers[location];
   if (!marker) {
-    throw new Error("Invalid location selected.");
+    console.error("Invalid location selected.");
+    return;
   }
 
-  // You could now store this event data in a database (Firebase, KV, etc.)
-  const event = {
-    name: eventName,
-    time: eventTime
-  };
-
-  // Add the event to the marker data (this assumes `marker` is an object)
-  marker.events = marker.events || [];
+  const event = { name: eventName, time: eventTime };
   marker.events.push(event);
 
-  // Return updated marker (to be saved or displayed in the UI on your front-end)
+  console.log(`Event Added: ${eventName} at ${eventTime}`);
   return marker;
 }
 
-// This would simulate looking up a marker by its location identifier
-function getMarkerByLocation(location) {
-  // Example marker structure, in reality you would look this up from your data source
-  const markers = {
-    "location1": { id: "location1", name: "Marker 1", events: [] },
-    "location2": { id: "location2", name: "Marker 2", events: [] }
-  };
+// Handle event form submission
+document.getElementById("add-event-button").addEventListener("click", function () {
+  const location = document.getElementById("event-location").value;
+  const eventName = document.getElementById("event-name").value;
+  const eventHour = document.getElementById("event-hour").value;
+  const eventMinute = document.getElementById("event-minute").value;
+  const eventPeriod = document.getElementById("event-period").value;
 
-  return markers[location] || null;
-}
-
-// Example function usage
-try {
-  const marker = addEventToMarker("location1", "Math Exam", "10", "30", "AM");
-  console.log("Event added:", marker);
-} catch (error) {
-  console.error("Error:", error.message);
-}
+  addEventToMarker(location, eventName, eventHour, eventMinute, eventPeriod);
+});
