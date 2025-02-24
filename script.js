@@ -1,4 +1,3 @@
-// Example markers structure to simulate data storage
 const markers = {
   "marker-1": { events: [] },
   "marker-2": { events: [] },
@@ -16,8 +15,7 @@ const markers = {
 // Function to add an event to a marker
 function addEventToMarker(location, eventName, eventHour, eventMinute, eventPeriod) {
   if (!eventName || eventHour === "" || eventMinute === "") {
-    console.error("Please enter all event details.");
-    return;
+    return { error: "Please enter all event details." };
   }
 
   eventHour = String(eventHour).padStart(2, '0');
@@ -26,24 +24,33 @@ function addEventToMarker(location, eventName, eventHour, eventMinute, eventPeri
 
   const marker = markers[location];
   if (!marker) {
-    console.error("Invalid location selected.");
-    return;
+    return { error: "Invalid location selected." };
   }
 
   const event = { name: eventName, time: eventTime };
   marker.events.push(event);
 
-  console.log(`Event Added: ${eventName} at ${eventTime}`);
-  return marker;
+  return { success: `Event Added: ${eventName} at ${eventTime}`, marker };
 }
 
-// Handle event form submission
-document.getElementById("add-event-button").addEventListener("click", function () {
-  const location = document.getElementById("event-location").value;
-  const eventName = document.getElementById("event-name").value;
-  const eventHour = document.getElementById("event-hour").value;
-  const eventMinute = document.getElementById("event-minute").value;
-  const eventPeriod = document.getElementById("event-period").value;
+// Cloudflare Worker API Handler
+export default {
+  async fetch(request) {
+    if (request.method === "POST") {
+      try {
+        const { location, eventName, eventHour, eventMinute, eventPeriod } = await request.json();
+        const result = addEventToMarker(location, eventName, eventHour, eventMinute, eventPeriod);
+        return new Response(JSON.stringify(result), {
+          headers: { "content-type": "application/json" },
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({ error: "Invalid request body" }), { status: 400 });
+      }
+    }
 
-  addEventToMarker(location, eventName, eventHour, eventMinute, eventPeriod);
-});
+    // Return markers data for GET requests
+    return new Response(JSON.stringify(markers), {
+      headers: { "content-type": "application/json" },
+    });
+  },
+};
